@@ -531,7 +531,7 @@ void GameCore::clear_memory()
 		SDL_DestroyTexture(block[i].img);
 	for (i = 0; i < 'z' - 'a'; i++)
 		SDL_DestroyTexture(object[i].img);
-	free(level[level_index]->level);
+	free(level[level_index].level);
 }
 
 
