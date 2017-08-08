@@ -34,7 +34,7 @@ private:
 	void initLevels();
 	void load_level(Level *map, const char *path);
 	void draw_level(Level *map);
-	void take_action(Level *map, int pos, int line, int *change_pos);
+	void take_action(Level *map, int pos, int line, int row, int *change_pos);
 	void level_size(const char *path, int *x, int *y);
 	void create_level(const char *path, char *map);
 	

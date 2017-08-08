@@ -7,7 +7,7 @@
 #define OFF  0
 
 #define ERROR -1
-#define EXITS  0
+#define EXIT  0
 
 #define SCREEN_WIDTH    1024
 #define SCREEN_HEIGHT    640
@@ -30,6 +30,7 @@
 #define ROOT   'r'
 #define WATER  'w'
 #define CARPET 'c'
+#define LADDER 'l'
 #define INFO   'i'
 
 //Backgrounds
@@ -45,9 +46,11 @@
 #define WATER_PATH   "data/sprt/water.png"
 #define DOOR_PATH    "data/sprt/door.png"
 #define CARPET_PATH  "data/sprt/carpet.png"
+#define LADDER_PATH  "data/sprt/ladder.png"
 
 //Levels
 #define LEVEL1 "data/levels/level1.dat"
 #define LEVEL2 "data/levels/level2.dat"
 #define LEVEL3 "data/levels/level3.dat"
 #define LEVEL4 "data/levels/level4.dat"
+#define LEVEL5 "data/levels/level5.dat"

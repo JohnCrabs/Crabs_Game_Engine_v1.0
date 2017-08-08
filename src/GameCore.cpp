@@ -95,7 +95,7 @@ void GameCore::clear_sdl()
 	SDL_DestroyWindow(game.screen);
 	SDL_FreeSurface(game.window);
 	SDL_Quit();
-	exit(EXITS);
+	exit(EXIT);
 }
 
 //Take events
@@ -205,6 +205,7 @@ void GameCore::initLevels()
 	load_level(&level[1], LEVEL2);
 	load_level(&level[2], LEVEL3);
 	load_level(&level[3], LEVEL4);
+	load_level(&level[4], LEVEL5);
 }
 
 //This function Loads a Level map
@@ -274,7 +275,7 @@ void GameCore::draw_level(Level *map)
 							//draw_image(player[1], player[0].x, player[0].y, game.renderer);
 						}
 						else if(input.action == 1) {
-							take_action(map, i*map->x + j, i, &line_change);
+							take_action(map, i*map->x + j, i, j, &line_change);
 							i = line_change;
 							j = -1;
 							input.action = 0;
@@ -317,6 +318,12 @@ void GameCore::draw_level(Level *map)
 						draw_image(object[WATER - 'a'], object[WATER - 'a'].x, object[WATER - 'a'].y, game.renderer);
 						break;
 					}
+					case LADDER: {
+						object[LADDER - 'a'].x = width + j*object[LADDER - 'a'].w;
+						object[LADDER - 'a'].y = height + i*object[LADDER - 'a'].h;
+						draw_image(object[LADDER - 'a'], object[LADDER - 'a'].x, object[LADDER - 'a'].y, game.renderer);
+						break;
+					}
 				}
 			}
 	if(object[DOOR-'a'].mode == ON) {
@@ -328,7 +335,7 @@ void GameCore::draw_level(Level *map)
 }
 
 //Do the action
-void GameCore::take_action(Level *map, int pos, int line, int *change_line)
+void GameCore::take_action(Level *map, int pos, int line, int row, int *change_line)
 {
 	register int i, j;
 	int face = (player[0].mode == ON) ? 1 : -1;
@@ -357,6 +364,25 @@ void GameCore::take_action(Level *map, int pos, int line, int *change_line)
 		}
 		case CARPET: {
 			map->level[pos+face] = '0';
+			SDL_RenderClear(game.renderer);
+			*change_line = 0;
+			break;
+		}
+		case LADDER: {
+			i = line;
+			j = (row+face);
+			if(map->level[(i-1)*map->x+j] == 'l') {
+				i--;
+				while(map->level[(i-1)*map->x+j] == 'l')
+					i--;
+			}
+			else if(map->level[(i+1)*map->x+j] == 'l'){
+				i++;
+				while(map->level[(i+1)*map->x+j] == 'l')
+					i++;
+			}
+			map->level[pos] = '0';
+			map->level[i*map->x+j+face] = 'P';
 			SDL_RenderClear(game.renderer);
 			*change_line = 0;
 			break;
@@ -519,6 +545,7 @@ void GameCore::load_img_snd()
 	object['f'-'a'] = load_img(FLOWER_PATH);
 	object['r'-'a'] = load_img(ROOT_PATH);
 	object['w'-'a'] = load_img(WATER_PATH);
+	object['l'-'a'] = load_img(LADDER_PATH);
 }
 
 void GameCore::clear_memory()
@@ -531,7 +558,8 @@ void GameCore::clear_memory()
 		SDL_DestroyTexture(block[i].img);
 	for (i = 0; i < 'z' - 'a'; i++)
 		SDL_DestroyTexture(object[i].img);
-	free(level[level_index].level);
+	for (int i = 0; i <= level_index; i++)
+		free(level[level_index].level);
 }
 
 
