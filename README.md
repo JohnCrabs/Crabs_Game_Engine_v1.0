@@ -3,45 +3,46 @@
 My first try to create my personal Game Engine.
 
 ## Code Example
-void GameCore::take_action(Level *map, int pos, int line, int *change_line)
-{
-	register int i, j;
-	int face = (player[0].mode == ON) ? 1 : -1;
-	int object_type;
-	switch (map->level[pos+face]){
-		case WATER: {
-			map->level[pos+face] = '0';
-			for(i = 0; i < map->y; i++)
-				for(j = 0; j < map->x; j++)
-					if (map->level[i*map->x + j] == ROOT && i > 1) {
-						object_type = map->level[(i-1)*map->x + j];
-						map->level[(i-1)*map->x + j] = 'f';
-						map->level[(i-2)*map->x + j] = object_type;
-						SDL_RenderClear(game.renderer);
-						*change_line = 0;
-					}
-			break;
-		}
-		case DOOR: {
-			free(level[level_index].level);
-			object[DOOR - 'a'].mode = OFF;
-			level_index++;
-			level[level_index].mode = ON;
-			*change_line = map->y;
-			break;
-		}
-		case CARPET: {
-			map->level[pos+face] = '0';
-			SDL_RenderClear(game.renderer);
-			*change_line = 0;
-			break;
-		}
-		default:{
-			*change_line = line;
-			break;
-		}
-	}	
-}
+
+	void GameCore::take_action(Level *map, int pos, int line, int *change_line){
+
+		register int i, j;
+		int face = (player[0].mode == ON) ? 1 : -1;
+		int object_type;
+		switch (map->level[pos+face]){
+			case WATER: {
+				map->level[pos+face] = '0';
+				for(i = 0; i < map->y; i++)
+					for(j = 0; j < map->x; j++)
+						if (map->level[i*map->x + j] == ROOT && i > 1) {
+							object_type = map->level[(i-1)*map->x + j];
+							map->level[(i-1)*map->x + j] = 'f';
+							map->level[(i-2)*map->x + j] = object_type;
+							SDL_RenderClear(game.renderer);
+							*change_line = 0;
+						}
+				break;
+			}
+			case DOOR: {
+				free(level[level_index].level);
+				object[DOOR - 'a'].mode = OFF;
+				level_index++;
+				level[level_index].mode = ON;
+				*change_line = map->y;
+				break;
+			}
+			case CARPET: {
+				map->level[pos+face] = '0';
+				SDL_RenderClear(game.renderer);
+				*change_line = 0;
+				break;
+			}
+			default:{
+				*change_line = line;
+				break;
+			}
+		}	
+	}
 
 ## Motivation
 
