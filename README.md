@@ -3,10 +3,8 @@
 My first try to create my personal Game Engine.
 
 ## Code Example
-//Do the action
 void GameCore::take_action(Level *map, int pos, int line, int *change_line)
 {
-
 	register int i, j;
 	int face = (player[0].mode == ON) ? 1 : -1;
 	int object_type;
@@ -42,8 +40,7 @@ void GameCore::take_action(Level *map, int pos, int line, int *change_line)
 			*change_line = line;
 			break;
 		}
-	}
-	
+	}	
 }
 
 ## Motivation
